@@ -156,7 +156,7 @@ include:
   - _pages
   - files
 exclude:
-  - index.html
+  - webapp.html
   - "*.sublime-project"
   - "*.sublime-workspace"
   - .asset-cache
