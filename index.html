@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sl33pSafe</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Orbitron', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .night-sky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .star {
+            position: absolute;
+            background-color: #ffffff;
+            border-radius: 50%;
+            animation: twinkle 2s infinite alternate;
+        }
+        @keyframes twinkle {
+            from { opacity: 0.5; }
+            to { opacity: 1; }
+        }
+        .meteor {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: linear-gradient(to bottom right, #ffffff, rgba(255,255,255,0));
+            box-shadow: 0 0 10px 5px rgba(255,255,255,0.3);
+            opacity: 1;
+            transform-origin: top left;
+            animation: meteor 3s linear;
+        }
+        @keyframes meteor {
+            0% { transform: translateX(0) translateY(0) rotate(45deg); opacity: 1; }
+            70% { opacity: 1; }
+            100% { transform: translateX(-1000px) translateY(1000px) rotate(45deg); opacity: 0; }
+        }
+        .moon {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #ffd700;
+            box-shadow: inset -25px 0 #e6c300, 0 0 20px #ffd700;
+        }
+        .container {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            width: 80%;
+            max-width: 600px;
+        }
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 15px #ffd700;
+        }
+        .data {
+            font-size: 2.2rem;
+            margin: 1.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .data-label {
+            font-weight: bold;
+            color: #ffd700;
+        }
+        button {
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1.2rem;
+            margin: 1rem 0.5rem;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background-color 0.3s, transform 0.1s;
+            font-family: 'Orbitron', sans-serif;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        #connectButton {
+            background-color: #4CAF50;
+        }
+        #connectButton.connected {
+            background-color: #2196F3;
+        }
+        #startButton {
+            background-color: #FF9800;
+        }
+        #closeButton {
+            background-color: #f44336;
+        }
+        #timer {
+            font-size: 1.5rem;
+            color: #ffd700;
+            margin: 1rem 0;
+            display: none;
+        }
+        #result {
+            font-size: 1.8rem;
+            color: #4CAF50;
+            margin: 1rem 0;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="night-sky"></div>
+    <div class="moon"></div>
+    
+    <div class="container">
+        <h1>Sl33pSafe</h1>
+        <div class="data">
+            <span class="data-label">SPO2:</span><span id="spo2">--</span> %
+        </div>
+        <div class="data">
+            <span class="data-label">BPM:</span><span id="bpm">--</span>
+        </div>
+        <div id="timer">00:00</div>
+        <div id="result"></div>
+        <button id="connectButton">Connect to Device</button>
+        <button id="startButton" style="display: none;">Start</button>
+        <button id="closeButton" style="display: none;">Close</button>
+    </div>
+
+    <script>
+        function createStars() {
+            const nightSky = document.querySelector('.night-sky');
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = `${Math.random() * 2}px`;
+                star.style.height = star.style.width;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDuration = `${Math.random() * 3 + 1}s`;
+                nightSky.appendChild(star);
+            }
+        }
+
+        function createMeteor() {
+            const nightSky = document.querySelector('.night-sky');
+            const meteor = document.createElement('div');
+            meteor.className = 'meteor';
+            meteor.style.left = `${Math.random() * 100}%`;
+            meteor.style.top = `${Math.random() * 50}%`;
+            meteor.style.width = `${Math.random() * 3 + 2}px`;
+            meteor.style.height = `${meteor.style.width}`;
+            nightSky.appendChild(meteor);
+            
+            setTimeout(() => {
+                nightSky.removeChild(meteor);
+            }, 3000);
+        }
+
+        createStars();
+        setInterval(createMeteor, 1000);
+
+        const DEVICE_NAME = 'OxySmart 1294';
+        const SERVICE_UUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
+        let currentDevice = null;
+        let isAnalyzing = false;
+        let startTime;
+        let timerInterval;
+        let spo2Values = [];
+        let apneaEvents = 0;
+        let totalMinutes = 0;
+
+        const connectButton = document.getElementById('connectButton');
+        const startButton = document.getElementById('startButton');
+        const closeButton = document.getElementById('closeButton');
+        const timerDisplay = document.getElementById('timer');
+        const resultDisplay = document.getElementById('result');
+
+        connectButton.addEventListener('click', async () => {
+            if (connectButton.textContent === 'Connect to Device') {
+                try {
+                    const device = await navigator.bluetooth.requestDevice({
+                        filters: [{ name: DEVICE_NAME }],
+                        optionalServices: [SERVICE_UUID],
+                    });
+
+                    currentDevice = device;
+                    device.addEventListener('gattserverdisconnected', onDisconnected);
+
+                    const server = await device.gatt.connect();
+                    const service = await server.getPrimaryService(SERVICE_UUID);
+                    const characteristics = await service.getCharacteristics();
+                    const oximetry = characteristics[1];
+
+                    oximetry.addEventListener('characteristicvaluechanged', getEventCallback(updateData));
+                    await oximetry.startNotifications();
+                    console.log('Connected and notifications started.');
+                    
+                    connectButton.textContent = 'Connected';
+                    connectButton.classList.add('connected');
+                    startButton.style.display = 'inline-block';
+                } catch (error) {
+                    console.error('Connection error:', error);
+                    resetConnectionState();
+                }
+            }
+        });
+
+        startButton.addEventListener('click', () => {
+            startButton.style.display = 'none';
+            closeButton.style.display = 'inline-block';
+            timerDisplay.style.display = 'block';
+            isAnalyzing = true;
+            startTime = Date.now();
+            spo2Values = [];
+            apneaEvents = 0;
+            totalMinutes = 0;
+            updateTimer();
+            timerInterval = setInterval(updateTimer, 1000);
+            setTimeout(startApneaDetection, 15 * 60 * 1000); // Start detection after 15 minutes
+        });
+
+        closeButton.addEventListener('click', () => {
+            if (currentDevice && currentDevice.gatt.connected) {
+                currentDevice.gatt.disconnect();
+            }
+            stopAnalysis();
+            calculateAHI();
+        });
+
+        function onDisconnected() {
+            console.log('Device disconnected');
+            resetConnectionState();
+        }
+
+        function resetConnectionState() {
+            connectButton.textContent = 'Connect to Device';
+            connectButton.classList.remove('connected');
+            startButton.style.display = 'none';
+            closeButton.style.display = 'none';
+            timerDisplay.style.display = 'none';
+            resultDisplay.style.display = 'none';
+            document.getElementById('spo2').textContent = '--';
+            document.getElementById('bpm').textContent = '--';
+            currentDevice = null;
+            isAnalyzing = false;
+            clearInterval(timerInterval);
+        }
+
+        function getEventCallback(cacheLineCallback) {
+            let cacheLine = [];
+            let started = false;
+
+            function eventCallback(event) {
+                const value = event.target.value;
+                for (let i = 0; i < value.byteLength; i++) {
+                    const byte = value.getUint8(i);
+                    if (byte == 170 && i + 1 < value.byteLength && value.getUint8(i + 1) == 85) {
+                        if (started) {
+                            cacheLineCallback(cacheLine);
+                        }
+                        cacheLine = [byte];
+                        started = true;
+                    } else {
+                        if (started) {
+                            cacheLine.push(byte);
+                        }
+                    }
+                }
+            }
+            return eventCallback;
+        }
+
+        function updateData(arr) {
+            switch (arr[3]) {
+                case 3:
+                case 6:
+                case 7:
+                    return;
+                case 8:
+                    const spo2 = arr[5];
+                    const bpm = arr[6];
+                    document.getElementById("spo2").textContent = spo2;
+                    document.getElementById("bpm").textContent = bpm;
+                    if (isAnalyzing) {
+                        spo2Values.push(spo2);
+                    }
+                    break;
+                default:
+                    console.error('Unknown flag', arr);
+            }
+        }
+
+        function updateTimer() {
+            const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsedTime / 60);
+            const seconds = elapsedTime % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function startApneaDetection() {
+            setInterval(() => {
+                if (isAnalyzing) {
+                    const minuteAvg = spo2Values.reduce((a, b) => a + b, 0) / spo2Values.length;
+                    if (minuteAvg < 93) {  // Changed from 93.5 to 93
+                        apneaEvents++;
+                    }
+                    totalMinutes++;
+                    spo2Values = [];
+                }
+            }, 60 * 1000); // Check every minute
+        }
+
+        function stopAnalysis() {
+            isAnalyzing = false;
+            clearInterval(timerInterval);
+        }
+
+        function calculateAHI() {
+            const totalHours = Math.max(totalMinutes / 60, 1); // Ensure we don't divide by zero
+            const ahi = apneaEvents / totalHours;
+            let diagnosis;
+
+            if (ahi < 5) {
+                diagnosis = "None";
+            } else if (ahi < 15) {
+                diagnosis = "Mild Sleep Apnea";
+            } else if (ahi < 30) {
+                diagnosis = "Moderate Sleep Apnea";
+            } else {
+                diagnosis = "Severe Sleep Apnea";
+            }
+            
+            resultDisplay.innerHTML = `
+                <p>AHI: ${ahi.toFixed(2)}</p>
+                <p>Diagnosis: ${diagnosis}</p>
+            `;
+            resultDisplay.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
