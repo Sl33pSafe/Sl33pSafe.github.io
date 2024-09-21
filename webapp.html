@@ -184,7 +184,7 @@
         createStars();
         setInterval(createMeteor, 1000);
 
-        const DEVICE_NAME = 'OxySmart 1294';
+        // const DEVICE_NAME = 'OxySmart 1294';
         const SERVICE_UUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
         let currentDevice = null;
         let isAnalyzing = false;
@@ -204,8 +204,10 @@
             if (connectButton.textContent === 'Connect to Device') {
                 try {
                     const device = await navigator.bluetooth.requestDevice({
-                        filters: [{ name: DEVICE_NAME }],
-                        optionalServices: [SERVICE_UUID],
+                        // filters: [{ name: DEVICE_NAME }],
+                        // optionalServices: [SERVICE_UUID],
+                        // Filter by the service UUID, which will include devices with different names
+                        filters: [{ services: [SERVICE_UUID] }]
                     });
 
                     currentDevice = device;
