@@ -202,6 +202,10 @@
 
         connectButton.addEventListener('click', async () => {
             if (connectButton.textContent === 'Connect to Device') {
+                if (!navigator.bluetooth) {
+                    alert('Web Bluetooth API is not supported in this browser. Please use Chrome or Edge on Windows, macOS, Linux, or Android, or Bluefy Web BLE Browser on iOS for Bluetooth functionality.');
+                    return;
+                }
                 try {
                     const device = await navigator.bluetooth.requestDevice({
                         // filters: [{ name: DEVICE_NAME }],
