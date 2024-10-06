@@ -7,7 +7,7 @@ redirect_from:
   - /about.html
 ---
 
-The **Sleep Apnea Non-Profit Project** was founded with a mission to assist individuals suffering from sleep apnea by developing affordable and accessible detection technology. The project began in response to a personal family need and quickly expanded to help others in the community. As part of this initiative, we designed and built a comprehensive system aimed at detecting sleep apnea symptoms early, allowing users to seek medical advice and treatment before the condition worsens. This system uses a blood oxygen sensor to monitor key indicators during sleep, and the data is visualized through a user-friendly web application.
+The **Sl33pSafe Project** was founded with a mission to assist individuals suffering from sleep apnea by developing affordable and accessible detection technology. The project began in response to a personal family need and quickly expanded to help others in the community. As part of this initiative, we designed and built a comprehensive system aimed at detecting sleep apnea symptoms early, allowing users to seek medical advice and treatment before the condition worsens. This system uses a blood oxygen sensor to monitor key indicators during sleep, and the data is visualized through a user-friendly web application.
 
 # Key Contributions:
 
@@ -15,7 +15,7 @@ The **Sleep Apnea Non-Profit Project** was founded with a mission to assist indi
   
 **Built a Web Application for Data Monitoring**: The collected data is transmitted to a custom-built **web application**, where users can visualize their sleep patterns, oxygen levels, and receive alerts if abnormal patterns are detected. The web app was designed with simplicity in mind, ensuring that elderly users could navigate it easily. It is also mobile-compatible for convenient access on smartphones and tablets.
 
-**Community Impact**: The system has been deployed to **20+ individuals**, including family, friends, and members of the local community. This includes a collaboration with **Cedar Creek of Bloomington Assisted Living**, where the system has been installed to help caregivers monitor the sleep health of seniors in their care. The devices have helped monitor the condition of vulnerable populations, and we’ve received positive feedback from users and caregivers alike.
+**Community Impact**: The system has been deployed to **20+ individuals**, including family, friends, and members of the local community. This includes a collaboration with **Cedar Creek of Bloomington Assisted Living**, where the system has been used to help caregivers monitor the sleep health of seniors in their care.
 
 **Ongoing Development**: We are currently in the **research and development phase** for the next generation of the detection system. This new iteration aims to improve the accuracy of the sensor and enhance the user interface of the web app based on feedback from users and caregivers. Additionally, we are working on incorporating machine learning techniques to better predict and classify sleep apnea events.
 
@@ -25,9 +25,8 @@ The **Sleep Apnea Non-Profit Project** was founded with a mission to assist indi
 
 Together, we've worked to bring this project to life.
 
-- **John Doe** ![John Doe's Portrait](images/john-doe.jpg)
-- **Jane Smith** ![Jane Smith's Portrait](images/jane-smith.jpg)
-- **Alex Taylor** ![Alex Taylor's Portrait](images/alex-taylor.jpg)
+- **Kevin Wu** ![John Doe's Portrait](images/john-doe.jpg)
+- **Jifeng Wu** ![Jane Smith's Portrait](images/jane-smith.jpg)
 
 # Project Demonstration Video:
 
