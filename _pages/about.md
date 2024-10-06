@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: "sl33psafe"
+title: "About"
 author_profile: true
 redirect_from: 
   - /about/
@@ -26,7 +26,7 @@ The **Sl33pSafe Project** was founded with a mission to assist individuals suffe
 Together, we've worked to bring this project to life.
 
 - **Kevin Wu** ![John Doe's Portrait](images/john-doe.jpg)
-- **Jifeng Wu** ![Jane Smith's Portrait](images/jane-smith.jpg)
+- **Jifeng Wu** ![Alex Taylor's Portrait](images/alex-taylor.jpg)
 
 # Project Demonstration Video:
 
