@@ -25,9 +25,9 @@ The **Sleep Apnea Non-Profit Project** was founded with a mission to assist indi
 
 While the project was initiated by me, I am grateful for the contributions of my dedicated team of co-founders. Together, we’ve worked to bring this project to life.
 
-- **John Doe** – Lead Engineer ![John Doe's Portrait](images/cofounders/john-doe.jpg)
-- **Jane Smith** – Web Developer ![Jane Smith's Portrait](images/cofounders/jane-smith.jpg)
-- **Alex Taylor** – Community Outreach Coordinator ![Alex Taylor's Portrait](images/cofounders/alex-taylor.jpg)
+- **John Doe** – Lead Engineer ![John Doe's Portrait](images/john-doe.jpg)
+- **Jane Smith** – Web Developer ![Jane Smith's Portrait](images/jane-smith.jpg)
+- **Alex Taylor** – Community Outreach Coordinator ![Alex Taylor's Portrait](images/alex-taylor.jpg)
 
 # Project Demonstration Video:
 
